@@ -38,9 +38,10 @@ class addr {
                             getDottedRepresentation(addr),
                             getDottedRepresentation(addr)
                             );
+                    break;
                 case 31:
                     System.out.println("There are no usable IP addresses");
-
+                    break;
                 default:
                     System.out.printf(
                             "%s : %s - %s\n",
