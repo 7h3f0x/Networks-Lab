@@ -28,18 +28,23 @@ void printMACAddress(unsigned char *buf) {
 }
 
 void printIPAddress(sockaddr_in *in_addr) {
-  char *s_addr = inet_ntoa(in_addr->sin_addr);
-  std::cout << s_addr << std::endl;
+    char *s_addr = inet_ntoa(in_addr->sin_addr);
+    std::cout << s_addr << std::endl;
 }
 
 int main(void) {
-    ifaddrs *ifaptr = (struct ifaddrs *)malloc(sizeof(ifaddrs));
 
+    // Allocate a buffer to store hostname in
     const size_t HOSTNAME_SZ = 0x100;
     char hostname[HOSTNAME_SZ] = {0};
+
+    // Fetch our hostname in the passed buffer
     gethostname(hostname, HOSTNAME_SZ);
 
     std::cout << "Hostname is : " << hostname << std::endl;
+
+    // Create an ifaddrs struct to pass to `getifaddrs`
+    ifaddrs *ifaptr = (ifaddrs *)malloc(sizeof(ifaddrs));
 
     if (getifaddrs(&ifaptr) != 0) {
         std::cerr << "Unable to get network interfaces" << std::endl;

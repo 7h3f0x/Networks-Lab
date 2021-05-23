@@ -3,16 +3,17 @@ import java.util.Scanner;
 
 class db_calc {
     public static void main(String args[]) {
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in);
         while (true) {
             System.out.println("Enter transmit power : ");
             String input;
             try {
                 input = in.nextLine().strip();
             } catch (java.util.NoSuchElementException e) {
+                in.close();
                 break;
             }
-            String[] parts = input.split(" ");
+            final String[] parts = input.split(" ");
             double temp;
             try {
                 temp = Double.parseDouble(parts[0]);
@@ -23,12 +24,15 @@ class db_calc {
             switch (parts[1]) {
                 case "dBW":
                     System.out.println("In W: " + from_dbw(temp));
+                    break;
                 case "dBm":
                     System.out.println("In W: " + (from_dbw(temp) / 1000));
+                    break;
                 case "W":
                     temp = to_db(temp);
                     System.out.println("In dBW : " + to_db(temp));
                     System.out.println("In dBm : " + (to_db(temp) + 30));
+                    break;
                 default:
                     System.out.println("Unknown unit : " + parts[1]);
             }

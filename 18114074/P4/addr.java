@@ -1,15 +1,14 @@
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 
 class addr {
     public static void main(String args[]) {
         if (args.length < 1) {
-            System.err.println("Usage: java addr <CIDR>");
+            System.err.println("Usage: java addr <CIDR Notation>");
             System.exit(1);
         }
 
-        String[] parts = args[0].split("/");
+        final String[] parts = args[0].split("/");
         if (parts.length != 2) {
             System.err.println("Invalid CIDR notation");
             System.exit(1);
@@ -17,25 +16,22 @@ class addr {
 
         try {
             int addr = byteToInt(InetAddress.getByName(parts[0]).getAddress());
-            int mask_val = Integer.parseInt(parts[1]);
-            int subnetMask = (~0) << (32 - mask_val);
-            int mask = (~0) >>> (mask_val);
-            // System.out.printf("%x\n", subnetMask);
-            // System.out.printf("%x\n", mask);
-            String m1 = getDottedRepresentation(subnetMask);
+            final int mask_val = Integer.parseInt(parts[1]);
+            final int subnetMask = (~0) << (32 - mask_val);
+            final int mask = (~0) >>> (mask_val);
+
+            final String m1 = getDottedRepresentation(subnetMask);
             System.out.println("Subnet Mask in Dotted decimal notation is : " + m1);
 
             addr &= subnetMask;
-            String m2 = getDottedRepresentation(addr);
+            final String m2 = getDottedRepresentation(addr);
             System.out.println("Network Address in dotted decimal notation is : " + m2);
 
-            String prefix = "Usable Host IP Range is ";
+            final String prefix = "Usable Host IP Range is ";
             switch (mask_val) {
                 case 32:
                     System.out.printf(
-                            "%s : %s - %s\n",
-                            prefix,
-                            getDottedRepresentation(addr),
+                            "Only usage IP value is: %s\n",
                             getDottedRepresentation(addr)
                             );
                     break;
@@ -44,7 +40,7 @@ class addr {
                     break;
                 default:
                     System.out.printf(
-                            "%s : %s - %s\n",
+                            "%s : Starting IP %s --- Ending IP %s\n",
                             prefix,
                             getDottedRepresentation(addr + 1),
                             getDottedRepresentation((addr | mask) - 1)
@@ -77,7 +73,7 @@ class addr {
         assert bytes.length == 4 : "byteToInt error";
 
         int num = 0;
-        int n = bytes.length;
+        final int n = bytes.length;
         for (int i = 0; i < n; ++i) {
             num += bytes[n - i - 1] << (i * 8);
         }

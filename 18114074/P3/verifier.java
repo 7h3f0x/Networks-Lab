@@ -22,15 +22,15 @@ class verifier {
             System.exit(1);
         }
 
-        // if (!checkPolynomial(polynomial)) {
-        //     System.err.println("Invalid polynomial");
-        //     System.exit(1);
-        // }
+        if (!checkPolynomial(polynomial)) {
+            System.err.println("Invalid polynomial");
+            System.exit(1);
+        }
 
         String res = divide(message, polynomial);
         if (Integer.parseInt(res) != 0) {
             System.out.print("Incorrect, Remainder is: ");
-            System.out.println(Integer.parseInt(res));
+            System.out.println(res);
         }
         else {
             System.out.println("Correct");

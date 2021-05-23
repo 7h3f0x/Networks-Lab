@@ -24,10 +24,10 @@ class generator {
             System.exit(1);
         }
 
-        // if (!checkPolynomial(polynomial)) {
-        //     System.err.println("Invalid polynomial");
-        //     System.exit(1);
-        // }
+        if (!checkPolynomial(polynomial)) {
+            System.err.println("Invalid polynomial");
+            System.exit(1);
+        }
 
         String res = divide(message, polynomial);
         System.out.println(res);
