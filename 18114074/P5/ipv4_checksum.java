@@ -76,7 +76,7 @@ class ipv4_checksum {
     }
 
     public static void calculateChecksum(short[] vals) {
-        debugPrintAsBinary(vals);
+        // debugPrintAsBinary(vals);
         long sum = 0;
         System.out.println("\nThe 16-bit values for the header are : ");
         for (final short num :vals) {
