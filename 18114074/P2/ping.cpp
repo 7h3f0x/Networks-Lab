@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
     sockaddr_in server_addr, client_addr;
     timeval timeout;
-    timeout.tv_sec = 1;
+    timeout.tv_sec = 2;
     timeout.tv_usec = 0;
     int sock_fd, yes = 1;
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     bzero(&server_addr, sizeof(sockaddr_in));
     server_addr.sin_family = AF_INET;
-    
+
     hostent *host;
     if ((host = gethostbyname(argv[1])) == nullptr) {
         std::cerr << "Couldn't resolve hostname" << std::endl;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
             char buf[0x100];
             socklen_t len = sizeof(sockaddr_in);
             if ((recvfrom(sock_fd, (void *)&buf, sizeof(buf), 0, (sockaddr *)&client_addr, &len)) < 0){
-                std::cerr << "recv error" << std::endl;
+                std::cerr << "Server reply timed out" << std::endl;
             } else {
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<double> time_elapsed = end - start;
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
                 size_t header_len = ip_pkt->ip_hl * 4;
                 icmp *icmp_packet = (icmp *)(buf + header_len);
                 if (icmp_packet->icmp_type == ICMP_ECHOREPLY) {
-                    std::cout << "ECHO REPLY for seq no. " 
+                    std::cout << "ECHO REPLY for seq no. "
                         << icmp_packet->icmp_seq << " received in "
                         << time_elapsed.count() * 1000 << " milliseconds" << std::endl;
                 }
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    
+
 
     return 0;
 }
